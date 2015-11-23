@@ -13,4 +13,9 @@ You can install it also under OSX (http://kivy.org/docs/installation/installatio
 I won't be able to help you.
 
 Current version in the ppa is 1.9.0 (november 2015). It's possible to install kivy in a virtualenv also, but we'll keep
-simple.
+simple (for curious ones, don't forget to set  mkvirtualenv --system-site-packages)
+
+* Install relayr library
+
+    pip install git+https://github.com/relayr/python-sdk
+
