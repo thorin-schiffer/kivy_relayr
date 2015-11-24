@@ -39,16 +39,27 @@ class DeviceWidget(BoxLayout):
 
     name_label = ObjectProperty()
 
+    def __init__(self, **kwargs):
+
+        super(DeviceWidget, self).__init__(**kwargs)
+        self.sensors = {}
+
     def on_device_id(self, device, device_id):
         self.name_label.text = device_id
 
     def update(self, readings):
-        pass
+        for reading in readings:
+            meaning = reading['meaning']
+            if meaning not in self.sensors:
+                sensor = SensorWidget()
+                sensor.meaning = meaning
+                self.sensors[meaning] = sensor
+            self.sensors[meaning].timestamp = reading['recorded']
+            self.sensors[meaning].value = reading['value']
 
 
 class SensorWidget(Widget):
     meaning = StringProperty()
-    name = StringProperty()
     value = NumericProperty()
     unit_name = StringProperty()
     timestamp = NumericProperty()
@@ -57,4 +68,3 @@ class SensorWidget(Widget):
 class SensorHistoryWidget(Widget):
     values = DictProperty()
     meaning = StringProperty()
-    name = StringProperty()
