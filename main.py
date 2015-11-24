@@ -11,7 +11,7 @@ class RelayrSensorApp(App):
         self.relayr_configure()
 
     def mqtt_callback(self, topic, payload):
-        print topic, payload
+        self.root.update(topic, payload)
 
     def relayr_configure(self):
         from relayr import Client
