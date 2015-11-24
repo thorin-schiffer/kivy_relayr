@@ -27,7 +27,8 @@ class RelayrSensorApp(App):
         self.mqtt_stream.stop()
 
     def build(self):
-        return
+        from widgets import MainWidget
+        return MainWidget()
 
 
 from kivy.core.window import Window
