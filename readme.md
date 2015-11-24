@@ -19,3 +19,11 @@ simple (for curious ones, don't forget to set  mkvirtualenv --system-site-packag
 
     pip install git+https://github.com/relayr/python-sdk
 
+### Todo
+
+* History widget, matplotlib
+* Multiple devices
+* Device id in storage
+* Sensor widget interaction
+* Buildozer, android sdk, entry in readme (in before you start)
+* Android packaging
