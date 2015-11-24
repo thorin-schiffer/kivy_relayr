@@ -68,6 +68,8 @@ class SensorWidget(BoxLayout):
     value_label = ObjectProperty()
     last_update_label = ObjectProperty()
 
+    color = ObjectProperty([0, 0, 0, 1])
+
     def on_meaning(self, sensor, meaning):
         self.meaning_label.text = meaning
 

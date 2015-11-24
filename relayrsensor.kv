@@ -20,6 +20,13 @@
     meaning_label: meaning_label.__self__
     value_label: value_label.__self__
     last_update_label: last_update_label.__self__
+    spacing: dp(10)
+    canvas.before:
+        Color:
+            rgba: self.color
+        Line:
+            circle: [self.center_x, self.center_y, min(self.width, self.height) / 2 - self.spacing - dp(10)]
+            width: dp(10)
     Label:
         id: meaning_label
     Label:
