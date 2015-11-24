@@ -9,7 +9,7 @@ import datetime
 from kivy.properties import NumericProperty, DictProperty
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
-
+from kivy.animation import Animation
 
 class MainWidget(BoxLayout):
     def __init__(self, **kwargs):
@@ -105,7 +105,7 @@ class SensorWidget(BoxLayout):
         else:
             interval = max_value - min_value
             percentage = (float(self.value) - min_value) / interval
-            self.angle = 360 * percentage
+            Animation(angle=360 * percentage, d=.5, t='in_out_cubic').start(self)
 
     on_meaning = on_value = on_timestamp = update
 
