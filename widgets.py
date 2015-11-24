@@ -80,7 +80,7 @@ class SensorWidget(BoxLayout):
 
     UNITS = {
         "temperature": u"°C",
-        "humidity": "g/kg",
+        "humidity": "%",
     }
 
     VALUE_BORDERS = {
