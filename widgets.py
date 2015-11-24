@@ -2,7 +2,6 @@ import json
 from kivy import Logger
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
-
 from kivy.properties import NumericProperty, DictProperty
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
@@ -37,6 +36,7 @@ class DeviceWidget(BoxLayout):
     device_id = StringProperty("ddd")
 
     name_label = ObjectProperty()
+    sensor_container = ObjectProperty()
 
     def __init__(self, **kwargs):
 
@@ -53,7 +53,7 @@ class DeviceWidget(BoxLayout):
                 sensor = SensorWidget()
                 sensor.meaning = meaning
                 self.sensors[meaning] = sensor
-                self.add_widget(sensor)
+                self.sensor_container.add_widget(sensor)
             self.sensors[meaning].timestamp = reading['recorded']
             self.sensors[meaning].value = reading['value']
 
