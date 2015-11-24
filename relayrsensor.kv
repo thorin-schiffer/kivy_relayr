@@ -10,6 +10,8 @@
     name_label: name_label.__self__
     sensor_container: sensor_container.__self__
     orientation: 'vertical'
+    spacing: dp(10)
+
     Label:
         id: name_label
         size_hint_y: .2
@@ -20,7 +22,9 @@
     meaning_label: meaning_label.__self__
     value_label: value_label.__self__
     last_update_label: last_update_label.__self__
-    spacing: dp(10)
+    orientation: 'vertical'
+    size_hint_y: .5
+    pos_hint: {"center_y": .5}
     canvas.before:
         Color:
             rgba: self.color
