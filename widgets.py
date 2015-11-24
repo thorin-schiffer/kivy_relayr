@@ -2,6 +2,8 @@ import json
 from kivy import Logger
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
+from kivy.utils import get_color_from_hex
+
 from kivy.properties import NumericProperty, DictProperty
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
@@ -70,8 +72,14 @@ class SensorWidget(BoxLayout):
 
     color = ObjectProperty([0, 0, 0, 1])
 
+    MEANING_COLORS = {
+        "temperature": get_color_from_hex("0088aaff"),
+        "humidity": get_color_from_hex("00aa44ff"),
+    }
+
     def on_meaning(self, sensor, meaning):
         self.meaning_label.text = meaning
+        self.color = self.MEANING_COLORS.get(meaning, (.5, 5, .5, 1))
 
     def on_value(self, sensor, value):
         self.value_label.text = unicode(value)
