@@ -1,3 +1,4 @@
+#:import get_color_from_hex kivy.utils.get_color_from_hex
 <Label>:
     color: 0, 0, 0, 1
 
@@ -25,9 +26,14 @@
     pos_hint: {"center_y": .5}
     canvas.before:
         Color:
-            rgba: self.color
+            rgba: get_color_from_hex("ecececff")
         Line:
             circle: [self.center_x, self.center_y, min(self.width, self.height) / 2 - self.spacing - dp(10)]
+            width: dp(10)
+        Color:
+            rgba: self.color
+        Line:
+            circle: [self.center_x, self.center_y, min(self.width, self.height) / 2 - self.spacing - dp(10), 0, self.angle]
             width: dp(10)
     Label:
         id: center_label

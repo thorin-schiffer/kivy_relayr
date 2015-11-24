@@ -71,6 +71,8 @@ class SensorWidget(BoxLayout):
 
     color = ObjectProperty([0, 0, 0, 1])
 
+    angle = NumericProperty()
+
     MEANING_COLORS = {
         "temperature": get_color_from_hex("0088aaff"),
         "humidity": get_color_from_hex("00aa44ff"),
@@ -79,6 +81,11 @@ class SensorWidget(BoxLayout):
     UNITS = {
         "temperature": u"°C",
         "humidity": "g/kg",
+    }
+
+    VALUE_BORDERS = {
+        "temperature": (20., 30.),
+        "humidity": (0., 100.),
     }
 
     LABEL_PATTERN = "%s\n[b][size=20sp]%s %s[/size][/b]\n[color=918a6fff]%s sec ago[/color]"
@@ -91,6 +98,14 @@ class SensorWidget(BoxLayout):
         unit = self.UNITS.get(self.meaning, "")
         self.center_label.text = self.LABEL_PATTERN % (self.meaning, self.value, unit, int(read_ago.total_seconds()))
         self.color = self.MEANING_COLORS.get(self.meaning, (.5, 5, .5, 1))
+
+        min_value, max_value = self.VALUE_BORDERS.get(self.meaning, (None, None))
+        if min_value is None:
+            self.angle = 360
+        else:
+            interval = max_value - min_value
+            percentage = (float(self.value) - min_value) / interval
+            self.angle = 360 * percentage
 
     on_meaning = on_value = on_timestamp = update
 
