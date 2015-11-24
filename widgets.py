@@ -4,6 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivy.utils import get_color_from_hex
 
+import datetime
 from kivy.properties import NumericProperty, DictProperty
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
@@ -66,9 +67,7 @@ class SensorWidget(BoxLayout):
     unit_name = StringProperty()
     timestamp = NumericProperty()
 
-    meaning_label = ObjectProperty()
-    value_label = ObjectProperty()
-    last_update_label = ObjectProperty()
+    center_label = ObjectProperty()
 
     color = ObjectProperty([0, 0, 0, 1])
 
@@ -76,16 +75,18 @@ class SensorWidget(BoxLayout):
         "temperature": get_color_from_hex("0088aaff"),
         "humidity": get_color_from_hex("00aa44ff"),
     }
+    LABEL_PATTERN = "%s\n[b][size=20sp]%s[/size][/b]\n[color=918a6fff]%s sec ago[/color]"
 
-    def on_meaning(self, sensor, meaning):
-        self.meaning_label.text = meaning
-        self.color = self.MEANING_COLORS.get(meaning, (.5, 5, .5, 1))
+    def update(self, sensor, value):
 
-    def on_value(self, sensor, value):
-        self.value_label.text = unicode(value)
+        read_time = datetime.datetime.fromtimestamp(self.timestamp/1e3)
 
-    def on_timestamp(self, sensor, timestamp):
-        self.last_update_label.text = unicode(timestamp)
+        read_ago = datetime.datetime.now() - read_time
+
+        self.center_label.text = self.LABEL_PATTERN % (self.meaning, self.value, int(read_ago.total_seconds()))
+        self.color = self.MEANING_COLORS.get(self.meaning, (.5, 5, .5, 1))
+
+    on_meaning = on_value = on_timestamp = update
 
 
 class SensorHistoryWidget(Widget):

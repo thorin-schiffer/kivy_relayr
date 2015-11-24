@@ -19,9 +19,7 @@
         id: sensor_container
 
 <SensorWidget>:
-    meaning_label: meaning_label.__self__
-    value_label: value_label.__self__
-    last_update_label: last_update_label.__self__
+    center_label: center_label.__self__
     orientation: 'vertical'
     size_hint_y: .5
     pos_hint: {"center_y": .5}
@@ -32,8 +30,8 @@
             circle: [self.center_x, self.center_y, min(self.width, self.height) / 2 - self.spacing - dp(10)]
             width: dp(10)
     Label:
-        id: meaning_label
-    Label:
-        id: value_label
-    Label:
-        id: last_update_label
+        id: center_label
+        markup: True
+        text_size: self.size
+        valign: 'middle'
+        halign: 'center'
