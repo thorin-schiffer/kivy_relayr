@@ -23,6 +23,12 @@ class RelayrSensorApp(App):
     def on_start(self):
         self.mqtt_stream.start()
 
+    def on_pause(self):
+        self.mqtt_stream.stop()
+
+    def on_resume(self):
+        self.mqtt_stream.start()
+
     def on_stop(self):
         self.mqtt_stream.stop()
 
