@@ -10,6 +10,7 @@
 <DeviceWidget>:
     name_label: name_label.__self__
     sensor_container: sensor_container.__self__
+    history_container: history_container.__self__
     orientation: 'vertical'
     spacing: dp(10)
 
@@ -18,6 +19,8 @@
         size_hint_y: .2
     BoxLayout:
         id: sensor_container
+    BoxLayout:
+        id: history_container
 
 <SensorWidget>:
     center_label: center_label.__self__

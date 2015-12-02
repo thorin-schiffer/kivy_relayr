@@ -4,12 +4,12 @@ from kivy import Logger
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivy.utils import get_color_from_hex
-
 import datetime
 from kivy.properties import NumericProperty, DictProperty
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
 from kivy.animation import Animation
+
 
 class MainWidget(BoxLayout):
     def __init__(self, **kwargs):
@@ -41,11 +41,13 @@ class DeviceWidget(BoxLayout):
 
     name_label = ObjectProperty()
     sensor_container = ObjectProperty()
+    history_container = ObjectProperty()
 
     def __init__(self, **kwargs):
 
         super(DeviceWidget, self).__init__(**kwargs)
         self.sensors = {}
+        self.histories = {}
 
     def on_device_id(self, device, device_id):
         self.name_label.text = device_id
@@ -60,6 +62,14 @@ class DeviceWidget(BoxLayout):
                 self.sensor_container.add_widget(sensor)
             self.sensors[meaning].timestamp = reading['recorded']
             self.sensors[meaning].value = reading['value']
+
+            if meaning not in self.histories:
+                history_widget = SensorHistoryWidget()
+                history_widget.meaning = meaning
+                self.histories[meaning] = history_widget
+                self.history_container.add_widget(history_widget)
+
+            self.histories[meaning].add_value(reading['value'], reading['recorded'])
 
 
 class SensorWidget(BoxLayout):
@@ -113,3 +123,6 @@ class SensorWidget(BoxLayout):
 class SensorHistoryWidget(Widget):
     values = DictProperty()
     meaning = StringProperty()
+
+    def add_value(self, value, timestamp):
+        pass
