@@ -29,7 +29,6 @@ simple (for curious ones, don't forget to set  mkvirtualenv --system-site-packag
 
 ### Todo
 
-* History widget, matplotlib
 * Wait for connection on device widget
 * Multiple devices
 * Device id in storage, add more devices from the account
