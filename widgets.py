@@ -2,30 +2,40 @@
 import json
 from kivy import Logger
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.widget import Widget
 from kivy.utils import get_color_from_hex
 import datetime
 from kivy.properties import NumericProperty, DictProperty
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
 from kivy.animation import Animation
+from kivy.garden.graph import Graph, MeshLinePlot
+
+
+# graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=5,
+#               x_ticks_major=25, y_ticks_major=1,
+#               y_grid_label=True, x_grid_label=True, padding=5,
+#               x_grid=True, y_grid=True, xmin=-0, xmax=100, ymin=-1, ymax=1)
+
+class SensorHistoryWidget(Graph):
+    values = DictProperty()
+    meaning = StringProperty()
+
+    def __init__(self, *args, **kwargs):
+        super(SensorHistoryWidget, self).__init__(*args, **kwargs)
+        from math import sin
+        plot = MeshLinePlot(color=[1, 0, 0, 1])
+        plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
+        self.add_plot(plot)
+
+    def add_value(self, value, timestamp):
+        pass
 
 
 class MainWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
         self.devices = {}
-        from kivy.garden.graph import Graph, MeshLinePlot
-        from math import sin
-        graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=5,
-                      x_ticks_major=25, y_ticks_major=1,
-                      y_grid_label=True, x_grid_label=True, padding=5,
-                      x_grid=True, y_grid=True, xmin=-0, xmax=100, ymin=-1, ymax=1)
-        plot = MeshLinePlot(color=[1, 0, 0, 1])
-        plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
-        graph.add_plot(plot)
-        self.graph = graph
-        self.add_widget(graph)
+        self.history = SensorHistoryWidget()
 
     def add_device_widget(self, device_id, data):
 
@@ -38,7 +48,8 @@ class MainWidget(BoxLayout):
         Logger.info("main: update for %s" % topic)
 
         if not self.devices:
-            self.graph.xlabel = "TEST"
+            self.clear_widgets()
+            self.add_widget(self.history)
         payload = json.loads(payload)
         device_id = payload['deviceId']
         readings = payload['readings']
@@ -52,7 +63,6 @@ class DeviceWidget(BoxLayout):
 
     name_label = ObjectProperty()
     sensor_container = ObjectProperty()
-    history_container = ObjectProperty()
 
     def __init__(self, **kwargs):
 
@@ -73,14 +83,6 @@ class DeviceWidget(BoxLayout):
                 self.sensor_container.add_widget(sensor)
             self.sensors[meaning].timestamp = reading['recorded']
             self.sensors[meaning].value = reading['value']
-
-            if meaning not in self.histories:
-                history_widget = SensorHistoryWidget()
-                history_widget.meaning = meaning
-                self.histories[meaning] = history_widget
-                self.history_container.add_widget(history_widget)
-
-            self.histories[meaning].add_value(reading['value'], reading['recorded'])
 
 
 class SensorWidget(BoxLayout):
@@ -129,11 +131,3 @@ class SensorWidget(BoxLayout):
             Animation(angle=360 * percentage, d=.5, t='in_out_cubic').start(self)
 
     on_meaning = on_value = on_timestamp = update
-
-
-class SensorHistoryWidget(Widget):
-    values = DictProperty()
-    meaning = StringProperty()
-
-    def add_value(self, value, timestamp):
-        pass
