@@ -1,6 +1,6 @@
 #:import get_color_from_hex kivy.utils.get_color_from_hex
 <Label>:
-    color: 0, 0, 0, 1
+    color: .3, .3, .3, 1
 
 <DeviceWidget>:
     name_label: name_label.__self__
@@ -30,6 +30,11 @@
         Line:
             circle: [self.center_x, self.center_y, min(self.width, self.height) / 2 - self.spacing - dp(10), 0, self.angle]
             width: dp(10)
+        Color:
+            rgba: self.color if self.meaning == self.device.history.meaning else (0,0,0,0)
+        Ellipse:
+            size: dp(10), dp(10)
+            pos: (self.x + self.width/2, self.y + self.height/2 - self.width/2 - dp(10)) if self.width < self.height else (self.x + self.width/2 + self.height/2 + dp(10), self.y + self.height/2)
     Label:
         id: center_label
         markup: True
@@ -44,7 +49,8 @@
     padding: dp(5)
     x_grid_label: True
     y_grid_label: True
-    xlabel: "Read, sec"
+    xlabel: "Recorded, sec"
     x_grid: False
     y_grid: False
     draw_border: False
+    size_hint_y: .4
