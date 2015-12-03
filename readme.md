@@ -3,9 +3,10 @@
 ### Before you start
 
 * Ensure you are under Ubuntu (or in virtualbox). Best case 15.10, because i have it.
-* Install kivy
+* Install kivy (we will need daily build, it looks better)
 
-     sudo add-apt-repository ppa:kivy-team/kivy
+     sudo add-apt-repository ppa:kivy-team/kivy-daily
+     sudo apt-get update
      sudo apt-get install python-kivy
 
 It's the easiest way to install. See for more options here http://kivy.org/docs/installation/installation-linux.html
@@ -19,11 +20,14 @@ simple (for curious ones, don't forget to set  mkvirtualenv --system-site-packag
 
     pip install git+https://github.com/relayr/python-sdk
 
+* Install pip reqs
+    pip install -r requirements.txt
+
 ### Todo
 
 * History widget, matplotlib
 * Multiple devices
-* Device id in storage
+* Device id in storage, add more devices from the account
 * Sensor widget interaction
 * Buildozer, android sdk, entry in readme (in before you start)
 * Android packaging
