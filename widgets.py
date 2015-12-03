@@ -39,6 +39,7 @@ class SensorHistoryWidget(Graph):
         self.ylabel = settings.UNITS[self.meaning]
         self.ymin = settings.VALUE_BORDERS[self.meaning][0]
         self.ymax = settings.VALUE_BORDERS[self.meaning][1]
+        self.y_ticks_major = settings.VALUE_GRAPH_TICKERS[self.meaning]
         self.plot.color = settings.MEANING_COLORS[self.meaning]
 
     def __init__(self, *args, **kwargs):

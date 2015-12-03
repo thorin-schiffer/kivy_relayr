@@ -16,3 +16,8 @@ VALUE_BORDERS = {
     "temperature": (20., 30.),
     "humidity": (0., 100.),
 }
+
+VALUE_GRAPH_TICKERS = {
+    "temperature": 2,
+    "humidity": 20,
+}
