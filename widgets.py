@@ -1,7 +1,7 @@
 # coding=utf-8
 import json
 from kivy import Logger
-from kivy.properties import ListProperty
+from kivy.uix.behaviors.button import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 import datetime
 from kivy.properties import NumericProperty, DictProperty
@@ -31,11 +31,11 @@ class MainWidget(BoxLayout):
 
 
 class SensorHistoryWidget(Graph):
-    values = ListProperty()
-    timestamps = ListProperty()
-    meaning = StringProperty('temperature')
+    values = DictProperty()
+    timestamps = DictProperty()
+    meaning = StringProperty()
 
-    def configure(self):
+    def on_meaning(self, widget, meaning):
         self.ylabel = settings.UNITS[self.meaning]
         self.ymin = settings.VALUE_BORDERS[self.meaning][0]
         self.ymax = settings.VALUE_BORDERS[self.meaning][1]
@@ -45,16 +45,22 @@ class SensorHistoryWidget(Graph):
         super(SensorHistoryWidget, self).__init__(*args, **kwargs)
         self.plot = MeshLinePlot()
         self.add_plot(self.plot)
-        self.configure()
 
     def add_value(self, value, timestamp):
-        self.values.append(value)
-        self.timestamps.append(timestamp)
+
+        if not self.meaning in self.values:
+            self.values[self.meaning] = []
+
+        if not self.meaning in self.timestamps:
+            self.timestamps[self.meaning] = []
+
+        self.values[self.meaning].append(value)
+        self.timestamps[self.meaning].append(timestamp)
 
         new_points = []
-        for i in xrange(len(self.timestamps)):
-            v = self.values[i]
-            t = self.timestamps[i]
+        for i in xrange(len(self.timestamps[self.meaning])):
+            v = self.values[self.meaning][i]
+            t = self.timestamps[self.meaning][i]
             read_time = datetime.datetime.fromtimestamp(t / 1e3)
             read_ago = datetime.datetime.now() - read_time
             new_points.append((int(-read_ago.total_seconds()), v))
@@ -77,6 +83,9 @@ class DeviceWidget(BoxLayout):
         self.history = SensorHistoryWidget()
         self.add_widget(self.history)
 
+    def activate_history(self, meaning):
+        self.history.meaning = meaning
+
     def on_device_id(self, device, device_id):
         self.name_label.text = device_id
 
@@ -84,10 +93,14 @@ class DeviceWidget(BoxLayout):
         for reading in readings:
             meaning = reading['meaning']
             if meaning not in self.sensors:
-                sensor = SensorWidget()
+                sensor = SensorWidget(device=self)
                 sensor.meaning = meaning
                 self.sensors[meaning] = sensor
                 self.sensor_container.add_widget(sensor)
+
+                if not self.history.meaning:
+                    self.history.meaning = meaning
+
             self.sensors[meaning].timestamp = reading['recorded']
             self.sensors[meaning].value = reading['value']
 
@@ -95,7 +108,7 @@ class DeviceWidget(BoxLayout):
                 self.history.add_value(reading['value'], reading['recorded'])
 
 
-class SensorWidget(BoxLayout):
+class SensorWidget(ButtonBehavior, BoxLayout):
     meaning = StringProperty()
     value = NumericProperty()
     timestamp = NumericProperty()
@@ -106,7 +119,12 @@ class SensorWidget(BoxLayout):
 
     angle = NumericProperty()
 
+    device = ObjectProperty()
+
     LABEL_PATTERN = "%s\n[b][size=20sp]%s %s[/size][/b]\n[color=918a6fff]%s sec ago[/color]"
+
+    def on_press(self):
+        self.device.activate_history(self.meaning)
 
     def update(self, sensor, value):
         read_time = datetime.datetime.fromtimestamp(self.timestamp / 1e3)
