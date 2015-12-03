@@ -17,8 +17,9 @@ class RelayrSensorApp(App):
         from relayr import Client
         from relayr.dataconnection import MqttStream
         self.client = Client(token=self.relayr_config["token"])
-        self.device = self.client.get_device(id=self.relayr_config["devices"][0]["id"])
-        self.mqtt_stream = MqttStream(self.mqtt_callback, [self.device])
+        self.devices = [self.client.get_device(id=self.relayr_config["device_id"])]
+
+        self.mqtt_stream = MqttStream(self.mqtt_callback, self.devices)
 
     def on_start(self):
         self.mqtt_stream.start()
@@ -34,7 +35,7 @@ class RelayrSensorApp(App):
 
     def build(self):
         from widgets import MainWidget
-        return MainWidget()
+        return MainWidget(self.devices)
 
 
 from kivy.core.window import Window

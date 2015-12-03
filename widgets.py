@@ -32,17 +32,15 @@ class SensorHistoryWidget(Graph):
 
 
 class MainWidget(BoxLayout):
-    def __init__(self, **kwargs):
+    def __init__(self, devices, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
         self.devices = {}
+        for device in devices:
+            widget = DeviceWidget()
+            widget.device_id = device.id
+            self.devices[device.id] = widget
+            self.add_widget(widget)
         self.history = SensorHistoryWidget()
-
-    def add_device_widget(self, device_id, data):
-
-        device = DeviceWidget()
-        device.device_id = device_id
-        self.devices[device_id] = device
-        self.add_widget(device)
 
     def update(self, topic, payload):
         Logger.info("main: update for %s" % topic)
@@ -53,8 +51,6 @@ class MainWidget(BoxLayout):
         payload = json.loads(payload)
         device_id = payload['deviceId']
         readings = payload['readings']
-        if device_id not in self.devices:
-            self.add_device_widget(device_id, readings)
         self.devices[device_id].update(readings)
 
 
