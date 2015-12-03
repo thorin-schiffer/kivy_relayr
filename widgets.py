@@ -1,5 +1,6 @@
 # coding=utf-8
 import json
+from collections import defaultdict
 from kivy import Logger
 from kivy.uix.behaviors.button import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
@@ -31,8 +32,6 @@ class MainWidget(BoxLayout):
 
 
 class SensorHistoryWidget(Graph):
-    values = DictProperty()
-    timestamps = DictProperty()
     meaning = StringProperty()
 
     def on_meaning(self, widget, meaning):
@@ -41,23 +40,16 @@ class SensorHistoryWidget(Graph):
         self.ymax = settings.VALUE_BORDERS[self.meaning][1]
         self.y_ticks_major = settings.VALUE_GRAPH_TICKERS[self.meaning]
         self.plot.color = settings.MEANING_COLORS[self.meaning]
+        self.update_plot()
 
     def __init__(self, *args, **kwargs):
         super(SensorHistoryWidget, self).__init__(*args, **kwargs)
         self.plot = MeshLinePlot()
         self.add_plot(self.plot)
+        self.values = defaultdict(list)
+        self.timestamps = defaultdict(list)
 
-    def add_value(self, value, timestamp):
-
-        if not self.meaning in self.values:
-            self.values[self.meaning] = []
-
-        if not self.meaning in self.timestamps:
-            self.timestamps[self.meaning] = []
-
-        self.values[self.meaning].append(value)
-        self.timestamps[self.meaning].append(timestamp)
-
+    def update_plot(self):
         new_points = []
         for i in xrange(len(self.timestamps[self.meaning])):
             v = self.values[self.meaning][i]
@@ -67,8 +59,15 @@ class SensorHistoryWidget(Graph):
             new_points.append((int(-read_ago.total_seconds()), v))
         self.plot.points = new_points
 
-        self.xmin = self.plot.points[0][0]
-        self.xmax = self.plot.points[-1][0] + 1
+        if self.plot.points:
+            self.xmin = self.plot.points[0][0]
+            self.xmax = self.plot.points[-1][0] + 1
+
+    def add_value(self, value, timestamp):
+
+        self.values[self.meaning].append(value)
+        self.timestamps[self.meaning].append(timestamp)
+        self.update_plot()
 
 
 class DeviceWidget(BoxLayout):
