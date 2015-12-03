@@ -2,13 +2,13 @@
 import json
 from kivy import Logger
 from kivy.uix.boxlayout import BoxLayout
-from kivy.utils import get_color_from_hex
 import datetime
 from kivy.properties import NumericProperty, DictProperty
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
 from kivy.animation import Animation
 from kivy.garden.graph import Graph, MeshLinePlot
+import settings
 
 
 class MainWidget(BoxLayout):
@@ -89,21 +89,6 @@ class SensorWidget(BoxLayout):
 
     angle = NumericProperty()
 
-    MEANING_COLORS = {
-        "temperature": get_color_from_hex("0088aaff"),
-        "humidity": get_color_from_hex("00aa44ff"),
-    }
-
-    UNITS = {
-        "temperature": u"°C",
-        "humidity": "%",
-    }
-
-    VALUE_BORDERS = {
-        "temperature": (20., 30.),
-        "humidity": (0., 100.),
-    }
-
     LABEL_PATTERN = "%s\n[b][size=20sp]%s %s[/size][/b]\n[color=918a6fff]%s sec ago[/color]"
 
     def update(self, sensor, value):
@@ -111,11 +96,11 @@ class SensorWidget(BoxLayout):
 
         read_ago = datetime.datetime.now() - read_time
 
-        unit = self.UNITS.get(self.meaning, "")
+        unit = settings.UNITS.get(self.meaning, "")
         self.center_label.text = self.LABEL_PATTERN % (self.meaning, self.value, unit, int(read_ago.total_seconds()))
-        self.color = self.MEANING_COLORS.get(self.meaning, (.5, 5, .5, 1))
+        self.color = settings.MEANING_COLORS.get(self.meaning, (.5, 5, .5, 1))
 
-        min_value, max_value = self.VALUE_BORDERS.get(self.meaning, (None, None))
+        min_value, max_value = settings.VALUE_BORDERS.get(self.meaning, (None, None))
         if min_value is None:
             self.angle = 360
         else:
