@@ -15,8 +15,20 @@ class MainWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
         self.devices = {}
+        from kivy.garden.graph import Graph, MeshLinePlot
+        from math import sin
+        graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=5,
+                      x_ticks_major=25, y_ticks_major=1,
+                      y_grid_label=True, x_grid_label=True, padding=5,
+                      x_grid=True, y_grid=True, xmin=-0, xmax=100, ymin=-1, ymax=1)
+        plot = MeshLinePlot(color=[1, 0, 0, 1])
+        plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
+        graph.add_plot(plot)
+        self.graph = graph
+        self.add_widget(graph)
 
     def add_device_widget(self, device_id, data):
+
         device = DeviceWidget()
         device.device_id = device_id
         self.devices[device_id] = device
@@ -26,8 +38,7 @@ class MainWidget(BoxLayout):
         Logger.info("main: update for %s" % topic)
 
         if not self.devices:
-            self.clear_widgets()
-
+            self.graph.xlabel = "TEST"
         payload = json.loads(payload)
         device_id = payload['deviceId']
         readings = payload['readings']
