@@ -1,6 +1,7 @@
 # coding=utf-8
 import json
 from kivy import Logger
+from kivy.properties import ListProperty
 from kivy.uix.boxlayout import BoxLayout
 import datetime
 from kivy.properties import NumericProperty, DictProperty
@@ -29,25 +30,38 @@ class MainWidget(BoxLayout):
         self.devices[device_id].update(readings)
 
 
-# graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=5,
-#               x_ticks_major=25, y_ticks_major=1,
-#               y_grid_label=True, x_grid_label=True, padding=5,
-#               x_grid=True, y_grid=True, xmin=-0, xmax=100, ymin=-1, ymax=1)
-
-
 class SensorHistoryWidget(Graph):
-    values = DictProperty()
-    meaning = StringProperty()
+    values = ListProperty()
+    timestamps = ListProperty()
+    meaning = StringProperty('temperature')
+
+    def configure(self):
+        self.ylabel = settings.UNITS[self.meaning]
+        self.ymin = settings.VALUE_BORDERS[self.meaning][0]
+        self.ymax = settings.VALUE_BORDERS[self.meaning][1]
+        self.plot.color = settings.MEANING_COLORS[self.meaning]
 
     def __init__(self, *args, **kwargs):
         super(SensorHistoryWidget, self).__init__(*args, **kwargs)
-        from math import sin
-        plot = MeshLinePlot(color=[1, 0, 0, 1])
-        plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
-        self.add_plot(plot)
+        self.plot = MeshLinePlot()
+        self.add_plot(self.plot)
+        self.configure()
 
     def add_value(self, value, timestamp):
-        pass
+        self.values.append(value)
+        self.timestamps.append(timestamp)
+
+        new_points = []
+        for i in xrange(len(self.timestamps)):
+            v = self.values[i]
+            t = self.timestamps[i]
+            read_time = datetime.datetime.fromtimestamp(t / 1e3)
+            read_ago = datetime.datetime.now() - read_time
+            new_points.append((int(-read_ago.total_seconds()), v))
+        self.plot.points = new_points
+
+        self.xmin = self.plot.points[0][0]
+        self.xmax = self.plot.points[-1][0] + 1
 
 
 class DeviceWidget(BoxLayout):
@@ -76,6 +90,9 @@ class DeviceWidget(BoxLayout):
                 self.sensor_container.add_widget(sensor)
             self.sensors[meaning].timestamp = reading['recorded']
             self.sensors[meaning].value = reading['value']
+
+            if meaning == self.history.meaning:
+                self.history.add_value(reading['value'], reading['recorded'])
 
 
 class SensorWidget(BoxLayout):
