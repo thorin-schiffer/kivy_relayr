@@ -11,10 +11,29 @@ from kivy.animation import Animation
 from kivy.garden.graph import Graph, MeshLinePlot
 
 
+class MainWidget(BoxLayout):
+    def __init__(self, devices, **kwargs):
+        super(MainWidget, self).__init__(**kwargs)
+        self.devices = {}
+        for device in devices:
+            widget = DeviceWidget()
+            widget.device_id = device.id
+            self.devices[device.id] = widget
+            self.add_widget(widget)
+
+    def update(self, topic, payload):
+        Logger.info("main: update for %s" % topic)
+        payload = json.loads(payload)
+        device_id = payload['deviceId']
+        readings = payload['readings']
+        self.devices[device_id].update(readings)
+
+
 # graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=5,
 #               x_ticks_major=25, y_ticks_major=1,
 #               y_grid_label=True, x_grid_label=True, padding=5,
 #               x_grid=True, y_grid=True, xmin=-0, xmax=100, ymin=-1, ymax=1)
+
 
 class SensorHistoryWidget(Graph):
     values = DictProperty()
@@ -31,29 +50,6 @@ class SensorHistoryWidget(Graph):
         pass
 
 
-class MainWidget(BoxLayout):
-    def __init__(self, devices, **kwargs):
-        super(MainWidget, self).__init__(**kwargs)
-        self.devices = {}
-        for device in devices:
-            widget = DeviceWidget()
-            widget.device_id = device.id
-            self.devices[device.id] = widget
-            self.add_widget(widget)
-        self.history = SensorHistoryWidget()
-
-    def update(self, topic, payload):
-        Logger.info("main: update for %s" % topic)
-
-        if not self.devices:
-            self.clear_widgets()
-            self.add_widget(self.history)
-        payload = json.loads(payload)
-        device_id = payload['deviceId']
-        readings = payload['readings']
-        self.devices[device_id].update(readings)
-
-
 class DeviceWidget(BoxLayout):
     device_id = StringProperty("ddd")
 
@@ -64,7 +60,8 @@ class DeviceWidget(BoxLayout):
 
         super(DeviceWidget, self).__init__(**kwargs)
         self.sensors = {}
-        self.histories = {}
+        self.history = SensorHistoryWidget()
+        self.add_widget(self.history)
 
     def on_device_id(self, device, device_id):
         self.name_label.text = device_id
