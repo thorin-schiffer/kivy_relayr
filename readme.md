@@ -30,9 +30,6 @@ simple (for curious ones, don't forget to set  mkvirtualenv --system-site-packag
 ### Todo
 
 * Wait for connection on device widget
-* Multiple devices
-* Device id in storage, add more devices from the account
-* Sensor widget interaction
 * Buildozer, android sdk, entry in readme (in before you start)
 * Android packaging
 * Tags for demonstration
