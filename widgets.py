@@ -95,6 +95,8 @@ class DeviceWidget(TabbedPanelItem):
     def update(self, readings):
         for reading in readings:
             meaning = reading['meaning']
+            if meaning not in settings.MEANING_COLORS:
+                continue
             if meaning not in self.sensors:
                 sensor = SensorWidget(device=self)
                 sensor.meaning = meaning
