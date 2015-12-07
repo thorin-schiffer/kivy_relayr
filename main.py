@@ -17,9 +17,10 @@ class RelayrSensorApp(App):
         from relayr import Client
         from relayr.dataconnection import MqttStream
         self.client = Client(token=self.relayr_config["token"])
-        self.devices = [self.client.get_device(id=device_id) for device_id in self.relayr_config["device_ids"]]
+        self.devices = {self.client.get_device(id=device['id']): device['name'] for device in
+                        self.relayr_config["devices"]}
 
-        self.mqtt_stream = MqttStream(self.mqtt_callback, self.devices)
+        self.mqtt_stream = MqttStream(self.mqtt_callback, self.devices.keys())
 
     def on_start(self):
         self.mqtt_stream.start()

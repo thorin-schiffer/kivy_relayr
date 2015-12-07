@@ -19,9 +19,10 @@ class MainWidget(TabbedPanel):
     def __init__(self, devices, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
         self.devices = {}
-        for device in devices:
+        for device, name in devices.items():
             widget = DeviceWidget()
             widget.device_id = device.id
+            widget.text = name
             self.devices[device.id] = widget
             self.add_widget(widget)
 

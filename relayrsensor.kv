@@ -11,12 +11,11 @@
 
 <DeviceWidget>:
     background_color: 0, 0, 0, 0
+    on_state: self.bold = True if args[1] == 'down' else False
     name_label: name_label.__self__
     sensor_container: sensor_container.__self__
     main_container: main_container.__self__
     spacing: dp(10)
-    text: "TEST"
-    color: 1, 0, 0, 1
 
     BoxLayout:
         id: main_container
