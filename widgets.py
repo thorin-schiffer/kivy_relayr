@@ -5,6 +5,8 @@ from kivy import Logger
 from kivy.uix.behaviors.button import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 import datetime
+from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
+
 from kivy.properties import NumericProperty, DictProperty
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
@@ -13,7 +15,7 @@ from kivy.garden.graph import Graph, MeshLinePlot
 import settings
 
 
-class MainWidget(BoxLayout):
+class MainWidget(TabbedPanel):
     def __init__(self, devices, **kwargs):
         super(MainWidget, self).__init__(**kwargs)
         self.devices = {}
@@ -70,7 +72,7 @@ class SensorHistoryWidget(Graph):
         self.update_plot()
 
 
-class DeviceWidget(BoxLayout):
+class DeviceWidget(TabbedPanelItem):
     device_id = StringProperty("ddd")
 
     name_label = ObjectProperty()
@@ -81,7 +83,7 @@ class DeviceWidget(BoxLayout):
         super(DeviceWidget, self).__init__(**kwargs)
         self.sensors = {}
         self.history = SensorHistoryWidget()
-        self.add_widget(self.history)
+        self.main_container.add_widget(self.history)
 
     def activate_history(self, meaning):
         self.history.meaning = meaning
