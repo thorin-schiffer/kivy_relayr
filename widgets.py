@@ -35,11 +35,11 @@ class SensorHistoryWidget(Graph):
     meaning = StringProperty()
 
     def on_meaning(self, widget, meaning):
-        self.ylabel = settings.UNITS[self.meaning]
-        self.ymin = settings.VALUE_BORDERS[self.meaning][0]
-        self.ymax = settings.VALUE_BORDERS[self.meaning][1]
-        self.y_ticks_major = settings.VALUE_GRAPH_TICKERS[self.meaning]
-        self.plot.color = settings.MEANING_COLORS[self.meaning]
+        self.ylabel = settings.UNITS.get(self.meaning, '?')
+        self.ymin = settings.VALUE_BORDERS.get(self.meaning, (0, 100))[0]
+        self.ymax = settings.VALUE_BORDERS.get(self.meaning, (0, 100))[1]
+        self.y_ticks_major = settings.VALUE_GRAPH_TICKERS.get(self.meaning, 10)
+        self.plot.color = settings.MEANING_COLORS.get(self.meaning, (.3, .3, .3, 1))
         self.update_plot()
 
     def __init__(self, *args, **kwargs):
@@ -102,7 +102,11 @@ class DeviceWidget(BoxLayout):
                     self.history.meaning = meaning
 
             self.sensors[meaning].timestamp = reading['recorded']
-            self.sensors[meaning].value = reading['value']
+            try:
+                self.sensors[meaning].value = reading['value']
+            except ValueError:
+                Logger.error("Sensor: %s:%s got bad value %s" % (self.device_id, meaning, reading['value']))
+                self.sensors[meaning].value = 0
 
             if meaning == self.history.meaning:
                 self.history.add_value(reading['value'], reading['recorded'])
