@@ -5,9 +5,9 @@ from kivy.app import App
 class RelayrSensorApp(App):
     def __init__(self, **kwargs):
         super(RelayrSensorApp, self).__init__(**kwargs)
+        from kivy.storage.jsonstore import JsonStore
+        self.relayr_config = JsonStore('relayr_credentials.json')
 
-        with open("relayr_credentials.json", "r") as f:
-            self.relayr_config = json.load(f)
         self.relayr_configure()
 
     def mqtt_callback(self, topic, payload):
@@ -17,7 +17,7 @@ class RelayrSensorApp(App):
         from relayr import Client
         from relayr.dataconnection import MqttStream
         self.client = Client(token=self.relayr_config["token"])
-        self.devices = [self.client.get_device(id=self.relayr_config["device_id"])]
+        self.devices = [self.client.get_device(id=device_id) for device_id in self.relayr_config["device_ids"]]
 
         self.mqtt_stream = MqttStream(self.mqtt_callback, self.devices)
 
