@@ -26,10 +26,3 @@ simple (for curious ones, don't forget to set  mkvirtualenv --system-site-packag
 * Install garden deps
 
     garden install graph
-
-### Todo
-
-* Wait for connection on device widget
-* Buildozer, android sdk, entry in readme (in before you start)
-* Android packaging
-* Tags for demonstration
