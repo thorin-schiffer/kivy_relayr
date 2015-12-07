@@ -7,6 +7,7 @@ MEANING_COLORS = {
     "humidity": get_color_from_hex("00aa44ff"),
     "luminosity": get_color_from_hex("ffd42aff"),
     "proximity": get_color_from_hex("ff8080ff"),
+    "noiseLevel": get_color_from_hex("808080ff"),
 }
 
 UNITS = {
@@ -14,6 +15,7 @@ UNITS = {
     "humidity": "%",
     "luminosity": "%",
     "proximity": "%",
+    "noiseLevel": "dB",
 }
 
 VALUE_BORDERS = {
@@ -21,6 +23,7 @@ VALUE_BORDERS = {
     "humidity": (0., 100.),
     "luminosity": (0., 100.),
     "proximity": (0., 100.),
+    "noiseLevel": (50., 150.),
 }
 
 VALUE_GRAPH_TICKERS = {
@@ -28,4 +31,5 @@ VALUE_GRAPH_TICKERS = {
     "humidity": 20,
     "luminosity": 20,
     "proximity": 20,
+    "noiseLevel": 20,
 }
