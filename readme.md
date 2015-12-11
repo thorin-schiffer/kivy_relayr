@@ -3,6 +3,10 @@
 This repository contains code for a workshop about creating IoT dashboards with Kivy.
 The sensor data used here comes from a WunderBar, an IoT development kit by relayr.io,
 but it should be fairly easy to use data from anywhere.
+Since Kivy is a mobile-first, cross-platform GUI framework, the same code should run
+on platforms like Linux, Android, iOS and MacOS. But since making this really happen
+can be challenging, this workshop will focus on an implemention on Linux (including
+the Raspberry Pi).
 
 ### Before you start
 
