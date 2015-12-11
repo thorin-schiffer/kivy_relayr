@@ -43,18 +43,28 @@ While you can install Kivy also under Mac OS X, the focus in this workshop will 
 on Linux and not OS X, but you can find more details here:
 http://kivy.org/docs/installation/installation-osx.html.
 
-### Installing Other Dependencies
+### Installing the relayr API client
 
-* relayr API client
+The relayr library is an API client that provides access to the open sensor data 
+cloud by relayr.io.
+The recommended installation is directly from GitHub:
 
-  The relayr library is an API client that provides access to the open sensor data 
-  cloud by relayr.io. The recommended installation is directly from GitHub:
+`pip install git+https://github.com/relayr/python-sdk`
 
-  `pip install git+https://github.com/relayr/python-sdk`
+In order to use this API client and receive data from a WunderBar, one must have
+a WunderBar and an account on the relayr.io cloud. 
+To make things as fast and easy as possible both will be provided during the
+workshop.
+  
+### Installing This Project
 
-* Install pip reqs
-    pip install -r requirements.txt
+Since in this workshop the focus is on developing with Kivy and relayr there will
+be no package to install from this project and we can simply work in the cloned
+repository.
 
-* Install garden deps
+```
+git clone xxx
+pip install -r requirements.txt
+garden install graph
+```
 
-    garden install graph
