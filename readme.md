@@ -63,8 +63,8 @@ be no package to install from this project and we can simply work in the cloned
 repository.
 
 ```
-git clone xxx
+git clone https://github.com/eviltnan/kivy_relayr.git
+cd kivy_relayr
 pip install -r requirements.txt
 garden install graph
 ```
-
