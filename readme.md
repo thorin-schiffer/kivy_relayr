@@ -1,6 +1,8 @@
 ## Relayr Kivy Workshop
 
-This repository contains code for a workshop about creating IoT dashboards with 
+This repository contains code for a 
+[workshop](http://www.meetup.com/IoT-Innovation-Lab/events/226726546/ "workshop") 
+about creating IoT dashboards with 
 [Kivy](http://kivy.org/ "Kivy").
 The sensor data used here comes from a 
 [WunderBar](https://www.relayr.io/wunderbar/ "WunderBar"), an IoT development kit by 
