@@ -1,10 +1,13 @@
 ## Relayr Kivy Workshop
 
-This repository contains code for a workshop about creating IoT dashboards with Kivy.
-The sensor data used here comes from a WunderBar, an IoT development kit by relayr.io,
+This repository contains code for a workshop about creating IoT dashboards with 
+[Kivy](http://kivy.org/ "Kivy").
+The sensor data used here comes from a 
+[WunderBar](https://www.relayr.io/wunderbar/ "WunderBar"), an IoT development kit by 
+[relayr.io](http://relayr.io/ "relayr.io"),
 but it should be fairly easy to use data from anywhere.
 Since Kivy is a mobile-first, cross-platform GUI framework, the same code should run
-on platforms like Linux, Android, iOS and MacOS.
+on platforms like Linux, Android, iOS and Mac OS X.
 But since making this really happen can be challenging (mostly to setup and configure
 the respective environments), this workshop will focus on an implemention on Linux
 (including the Raspberry Pi).
@@ -17,6 +20,10 @@ For this workshop the target platform is defined as following:
 - native or inside a virtual machine (VirtualBox recommended)
 - the code here (as well as Ubuntu 15.10) also works on the Raspberry Pi 2
 - previous Ubuntu versions might work, too, but have not been tested
+
+For the Raspberry Pi there is even an image of a complete distribution named
+[KivyPie](http://kivypie.mitako.eu/ "KivyPie") that you can try out (this was
+not tested though with the code in this repository).
 
 ### Installing Kivy
 
@@ -46,21 +53,22 @@ http://kivy.org/docs/installation/installation-osx.html.
 ### Installing the relayr API client
 
 The relayr library is an API client that provides access to the open sensor data 
-cloud by relayr.io.
+cloud by [relayr.io](http://relayr.io/ "relayr.io").
 The recommended installation is directly from GitHub:
 
 `pip install git+https://github.com/relayr/python-sdk`
 
 In order to use this API client and receive data from a WunderBar, one must have
-a WunderBar and an account on the relayr.io cloud. 
+a WunderBar and an account on the [relayr.io](http://relayr.io/ "relayr.io")
+cloud. 
 To make things as fast and easy as possible both will be provided during the
 workshop.
   
 ### Installing This Project
 
-Since in this workshop the focus is on developing with Kivy and relayr there will
-be no package to install from this project and we can simply work in the cloned
-repository.
+Since the focus of this workshop is on developing with Kivy and relayr there will
+be no dashboard package to really "install" from this project and we can simply
+work in the cloned repository.
 
 ```
 git clone https://github.com/eviltnan/kivy_relayr.git
@@ -74,7 +82,8 @@ garden install graph
 Before you can run the code you must create a file named `relayr_credentials.json`
 which contains an API access token as well as a list of device IDs for devices 
 on the WunderBar that you will want to display in a dashboard.
-You can pick up these IDs from the relayr developer dashboard.
+You can pick up these IDs from the 
+[relayr developer dashboard](https://developer.relayr.io/ "relayr developer dashboard").
 Once this file is created and populated with the correct information you can start 
 the dashboard with this command and watch how your device sensors are doing:
 
