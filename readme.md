@@ -1,5 +1,9 @@
 ## Relayr Kivy Workshop Project
 
+This repository contains code for a workshop about creating IoT dashboards with Kivy.
+The sensor data used here comes from a WunderBar, an IoT development kit by relayr.io,
+but it should be fairly easy to use data from anywhere.
+
 ### Before you start
 
 * Ensure you are under Ubuntu (or in virtualbox). Best case 15.10, because i have it.
