@@ -68,3 +68,16 @@ cd kivy_relayr
 pip install -r requirements.txt
 garden install graph
 ```
+
+### Running the Code
+
+Before you can run the code you must create a file named `relayr_credentials.json`
+which contains an API access token as well as a list of device IDs for devices 
+on the WunderBar that you will want to display in a dashboard.
+You can pick up these IDs from the relayr developer dashboard.
+Once this file is created and populated with the correct information you can start 
+the dashboard with this command and watch how your device sensors are doing:
+
+```
+python main.py
+```
