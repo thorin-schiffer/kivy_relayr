@@ -5,7 +5,7 @@ This is an overview of the emerging schedule for this three hour workshop.
 ### Introduction
 
 - Welcome
-- Setup (Wifi, Relayr API)
+- Setup (Wifi, Relayr WunderBar and API)
 
 ### Installation
 
