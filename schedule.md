@@ -29,4 +29,4 @@ This is an overview of the emerging schedule for this three hour workshop.
 ### Feedback
 
 - What you have learned
-- WHere to go from here
+- Where to go from here
