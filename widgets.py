@@ -1,17 +1,23 @@
 # coding=utf-8
+
 import json
+import datetime
 from collections import defaultdict
+
 from kivy import Logger
 from kivy.uix.behaviors.button import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
-import datetime
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
-
 from kivy.properties import NumericProperty, DictProperty
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
 from kivy.animation import Animation
-from kivy.garden.graph import Graph, MeshLinePlot
+try:
+    # try import local graph first, if present (workaround on OS X)
+    from graph import Graph, MeshLinePlot
+except ImportError:
+    from kivy.garden.graph import Graph, MeshLinePlot
+
 import settings
 
 
