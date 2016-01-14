@@ -1,7 +1,7 @@
 ## Relayr Kivy Workshop
 
 This repository contains code for a 
-[workshop](http://www.meetup.com/IoT-Innovation-Lab/events/226726546/ "workshop") 
+[workshop](http://www.meetup.com/IoT-Innovation-Lab/events/227863351/ "workshop") 
 about creating IoT dashboards with 
 [Kivy](http://kivy.org/ "Kivy").
 The sensor data used here comes from a 
