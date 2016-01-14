@@ -10,9 +10,11 @@ The sensor data used here comes from a
 but it should be fairly easy to use data from anywhere.
 Since Kivy is a mobile-first, cross-platform GUI framework, the same code should run
 on platforms like Linux, Android, iOS and Mac OS X.
-But since making this really happen can be challenging (mostly to setup and configure
-the respective environments), this workshop will focus on an implemention on Linux
-(including the Raspberry Pi).
+But turning this into native applications can be challenging (mostly to setup and configure
+the respective environments), so this workshop will focus on an implemention on Linux.
+Nevertheless, you can find some notes in the file `install_osx.md` that should be useful
+to run this code on Mac OS X (while is will not be supported by Sergey who is leading the
+workshop).
 
 ### Target Platform
 
