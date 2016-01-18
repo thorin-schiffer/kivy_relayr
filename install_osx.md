@@ -14,14 +14,16 @@ Install Kivy:
 Install dependencies:
 
 5. `kivy -m pip install git+git://github.com/relayr/python-sdk.git`
-Note: If you see a setup error like this when configuring pexpect (a dependency of the python-sdk package), it is a [known issue](https://github.com/pexpect/pexpect/issues/220) on Python 2.7:
-```
+ Note: If you see a setup error like this when configuring pexpect (a dependency of the python-sdk package)
+ ```
 Running setup.py install for pexpect
       File "/Applications/Kivy.app/Contents/Resources/venv/lib/python2.7/site-packages/pexpect/async.py", line 16
         transport, pw = yield from asyncio.get_event_loop()\
                                  ^
     SyntaxError: invalid syntax
-```
+ ```
+ 
+ it is a [known issue](https://github.com/pexpect/pexpect/issues/220) on Python 2.7 and it is safe to ignore this error.
 6. `kivy -m pip install kivy-garden`
 7. `source /Applications/Kivy.app/Contents/Resources/venv/bin/activate`
 8. `garden install graph`
