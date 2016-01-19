@@ -34,6 +34,5 @@ Fetch/config/hack/run workshop code:
 10. `git clone https://github.com/eviltnan/kivy_relayr.git`
 11. `cd kivy_relayr`
 12. `cp relayr_credentials_sample.json relayr_credentials.json`
-13. `emacs relayr_credentials.json` (replace IDs)
-14. `cp -R ~/.kivy/garden/garden.graph graph`
-15. `kivy my_main.py`
+13. `cp -R ~/.kivy/garden/garden.graph graph`
+14. `kivy my_main.py`
