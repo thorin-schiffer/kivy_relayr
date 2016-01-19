@@ -88,6 +88,9 @@ which contains an API access token as well as a list of device IDs for devices
 on the WunderBar that you will want to display in a dashboard.
 You can pick up these IDs from the 
 [relayr developer dashboard](https://developer.relayr.io/ "relayr developer dashboard").
+For conveniance reasons a temporary token (valid for 14 days) and three device IDs
+were added to the file `relayr_credentials_sample.json` in this repo, so pleople
+can play with before the workshop.
 Once this file is created and populated with the correct information you can start 
 the dashboard with this command and watch how your device sensors are doing:
 
